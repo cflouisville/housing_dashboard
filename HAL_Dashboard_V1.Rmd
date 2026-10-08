@@ -42,7 +42,7 @@ library(sysfonts)
 font_add_google("Poppins", "poppins")
 showtext_auto()
 
-load("../../data/eviction/eviction.RData")
+load("data/eviction/eviction.RData")
 
 eviction_summary_qtr <- eviction %>%
   st_drop_geometry() %>%
@@ -104,7 +104,7 @@ p
     -   Other option
     
 ```{r zillow_map}
-load("../../data/housing/zillow_hvi.Rdata")
+load("data/housing/zillow_hvi.Rdata")
 
 z_hvi <- zillow_hvi %>%
   select(RegionName, everything()) %>%
@@ -150,7 +150,7 @@ zhvi_growth_map
 ### Louisville Minimum Wage: \$7.25 = \$15,080 per year
 
 ```{r}
-df <- read_excel("../../data/housing/housing_cost_percentage.xlsx") %>%
+df <- read_excel("data/housing/housing_cost_percentage.xlsx") %>%
   janitor::clean_names()
 
 income_levels <- c("<20k", "20k to 34k", "35k to 49k", "50k to 74k", "75k+")
