@@ -2,7 +2,6 @@
 output:
   html_document:
     css: HAL.css
-    accent: "#7bdcb5"
     self_contained: false
     toc: yes
     toc_float: yes
@@ -47,26 +46,23 @@ load("../../data/eviction/eviction.RData")
 
 eviction_summary_qtr <- eviction %>%
   st_drop_geometry() %>%
-  filter(
-    filing_date >= lubridate::ym("2021-01"),
-    filing_date < lubridate::ym("2025-10")) %>%
-  mutate(
-    year = year(filing_date),
-    quarter = quarter(filing_date)) %>%
+  filter(filing_date >= lubridate::ym("2021-01"),
+         filing_date < lubridate::ym("2025-10")) %>%
+  mutate(year = year(filing_date),
+         quarter = quarter(filing_date)) %>%
   group_by(year, quarter) %>%
   summarise(
     filings = n(),
     judgements = sum(JPF),
     warrants = sum(warrant_flag)
   ) %>%
-  mutate(
-    period = paste0(year, " Q", quarter),
-    qtr_num = year + (quarter - 1) / 4) %>%
+  mutate(period = paste0(year, " Q", quarter),
+         qtr_num = year + (quarter - 1) / 4) %>%
   pivot_longer(
     cols = c(filings, judgements, warrants),
     values_to = "n",
     names_to = "Type"
-  ) 
+  )
 
 p <- ggplot(eviction_summary_qtr,
             aes(
@@ -87,11 +83,11 @@ p <- ggplot(eviction_summary_qtr,
     legend.text = element_text(size = 12),
     panel.grid.minor = element_blank(),
     panel.grid.major.x = element_blank()
-    ) + 
+  ) +
   theme_bw()
 
 p <- ggplotly(p, tooltip = "text") %>%
-  layout(legend = list(title = list(text = ""))) 
+  layout(legend = list(title = list(text = "")))
 p
 ```
 
@@ -116,8 +112,7 @@ z_hvi <- zillow_hvi %>%
 
 zhvi_growth <- z_hvi %>%
   select(zip, X2000.01.31, X2026.08.31) %>%
-  mutate(
-    growth_pct = (X2026.08.31 / X2000.01.31 - 1) * 100) %>%
+  mutate(growth_pct = (X2026.08.31 / X2000.01.31 - 1) * 100) %>%
   select(zip, growth_pct)
 
 map_zip <- glptools::map_zip
@@ -126,32 +121,20 @@ zhvi_growth_map <- map_zip %>%
   mutate(zip = as.integer(zip)) %>%
   left_join(zhvi_growth, by = "zip") %>%
   ggplot() +
-  geom_sf(
-    aes(fill = growth_pct),
-    color = "white",
-    linewidth = 0.2
-  ) +
+  geom_sf(aes(fill = growth_pct),
+          color = "white",
+          linewidth = 0.2) +
   scale_fill_gradientn(
-    colors = c(
-      "#FFD3D6",
-      "#FF8699",
-      "#F4354F"
-    ),
+    colors = c("#FFD3D6", "#FF8699", "#F4354F"),
     labels = scales::label_percent(scale = 1),
     name = "Growth"
   ) +
-  labs(
-    title = "Home Value Growth, 2000–2026",
-    subtitle = "Zillow Home Value Index"
-  ) +
+  labs(title = "Home Value Growth, 2000–2026", subtitle = "Zillow Home Value Index") +
   theme_void() +
-  theme(
-    plot.title = element_text(face = "bold"),
-    legend.position = "right"
-  )
+  theme(plot.title = element_text(face = "bold"),
+        legend.position = "right")
 
 zhvi_growth_map
-
 ```
 
 -   GROUPED BAR CHART?
@@ -170,28 +153,49 @@ zhvi_growth_map
 df <- read_excel("../../data/housing/housing_cost_percentage.xlsx") %>%
   janitor::clean_names()
 
-income_levels <- c("<20k", "20k to 34k","35k to 49k", "50k to 74k", "75k+")
+income_levels <- c("<20k", "20k to 34k", "35k to 49k", "50k to 74k", "75k+")
 
 income_cb_renter <- df %>%
   filter(tenure == "Renter") %>%
   mutate(income = factor(income, levels = income_levels)) %>%
-  pivot_longer(c("less_than_20_percent", "between_20_29_percent", "over_30_percent"), names_to = "% income spent on housing", values_to = "percent") %>%
-  mutate(`% income spent on housing` = recode(`% income spent on housing`,
-    less_than_20_percent = "<20%", 
-    between_20_29_percent = "20% to 29%", 
-    over_30_percent = "30%+"
-  ), 
-  ) 
+  pivot_longer(
+    c(
+      "less_than_20_percent",
+      "between_20_29_percent",
+      "over_30_percent"
+    ),
+    names_to = "% income spent on housing",
+    values_to = "percent"
+  ) %>%
+  mutate(
+    `% income spent on housing` = recode(
+      `% income spent on housing`,
+      less_than_20_percent = "<20%",
+      between_20_29_percent = "20% to 29%",
+      over_30_percent = "30%+"
+    ),
+  )
 
 income_cb_owner <- df %>%
   filter(tenure == "Owner") %>%
   mutate(income = factor(income, levels = income_levels)) %>%
-  pivot_longer(c("less_than_20_percent", "between_20_29_percent", "over_30_percent"), names_to = "% income spent on housing", values_to = "percent") %>%
-  mutate(`% income spent on housing` = recode(`% income spent on housing`,
-    less_than_20_percent = "<20%", 
-    between_20_29_percent = "20% to 29%", 
-    over_30_percent = "30%+"
-  ))
+  pivot_longer(
+    c(
+      "less_than_20_percent",
+      "between_20_29_percent",
+      "over_30_percent"
+    ),
+    names_to = "% income spent on housing",
+    values_to = "percent"
+  ) %>%
+  mutate(
+    `% income spent on housing` = recode(
+      `% income spent on housing`,
+      less_than_20_percent = "<20%",
+      between_20_29_percent = "20% to 29%",
+      over_30_percent = "30%+"
+    )
+  )
 
 library(showtext)
 library(sysfonts)
@@ -199,49 +203,61 @@ library(sysfonts)
 font_add_google("Poppins", "Poppins")
 showtext_auto()
 
-plot_income_cb_renter <- ggplot(income_cb_renter, aes(x = income, y = percent, fill = `% income spent on housing`, group = `% income spent on housing`)) +
-  geom_col(position = position_dodge(width = 0.5), width = 0.5) +                    
-  labs(
-    title = "Cost Burden by Income Group (Renter)",
-    x = "Income Group",
-    y = "Percent"
-  ) +
-  scale_y_continuous(labels = scales::label_percent()) + 
-  scale_fill_manual(
-    values = c(
-       "#FFD3D6", 
-       "#FF8699",
-       "#F4354F"
-    )
-  ) +
- theme_minimal(base_family = "poppins", base_size = 22) +
+plot_income_cb_renter <- ggplot(
+  income_cb_renter,
+  aes(
+    x = income,
+    y = percent,
+    fill = `% income spent on housing`,
+    group = `% income spent on housing`
+  )
+) +
+  geom_col(position = position_dodge(width = 0.5), width = 0.5) +
+  labs(title = "Cost Burden by Income Group (Renter)", x = "Income Group", y = "Percent") +
+  scale_y_continuous(labels = scales::label_percent()) +
+  scale_fill_manual(values = c("#FFD3D6", "#FF8699", "#F4354F")) +
+  theme_minimal(base_family = "poppins", base_size = 22) +
   theme(
-    axis.text.x = element_text(angle = 45, hjust = 1, family = "poppins"),
-    plot.title = element_text(face = "bold", size = 26, family = "poppins"),
+    axis.text.x = element_text(
+      angle = 45,
+      hjust = 1,
+      family = "poppins"
+    ),
+    plot.title = element_text(
+      face = "bold",
+      size = 26,
+      family = "poppins"
+    ),
     legend.position = "top"
   )
 
 plot_income_cb_renter
 
-plot_income_cb_owner <- ggplot(income_cb_owner, aes(x = income, y = percent, fill = `% income spent on housing`, group = `% income spent on housing`)) +
-  geom_col(position = position_dodge(width = 0.5), width = 0.5) +                    
-  labs(
-    title = "Cost Burden by Income Group (Owner)",
-    x = "Income Group",
-    y = "Percent"
-  ) +
-  scale_y_continuous(labels = scales::label_percent()) + 
-  scale_fill_manual(
-    values = c(
-       "#FFD3D6", 
-       "#FF8699",
-       "#F4354F"
-    )
-  ) +
- theme_minimal(base_family = "poppins", base_size = 22) +
+plot_income_cb_owner <- ggplot(
+  income_cb_owner,
+  aes(
+    x = income,
+    y = percent,
+    fill = `% income spent on housing`,
+    group = `% income spent on housing`
+  )
+) +
+  geom_col(position = position_dodge(width = 0.5), width = 0.5) +
+  labs(title = "Cost Burden by Income Group (Owner)", x = "Income Group", y = "Percent") +
+  scale_y_continuous(labels = scales::label_percent()) +
+  scale_fill_manual(values = c("#FFD3D6", "#FF8699", "#F4354F")) +
+  theme_minimal(base_family = "poppins", base_size = 22) +
   theme(
-    axis.text.x = element_text(angle = 45, hjust = 1, family = "poppins"),
-    plot.title = element_text(face = "bold", size = 26, family = "poppins"),
+    axis.text.x = element_text(
+      angle = 45,
+      hjust = 1,
+      family = "poppins"
+    ),
+    plot.title = element_text(
+      face = "bold",
+      size = 26,
+      family = "poppins"
+    ),
     legend.position = "top"
   )
 
