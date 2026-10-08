@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>HAL_Dashboard_V1.knit</title>
+
+<script src="index_files/header-attrs-2.30/header-attrs.js"></script>
+<script src="index_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="index_files/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="index_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="index_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="index_files/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="index_files/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="index_files/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="index_files/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="index_files/navigation-1.1/tabsets.js"></script>
+<script src="index_files/navigation-1.1/codefolding.js"></script>
+<link href="index_files/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="index_files/highlightjs-9.12.0/highlight.js"></script>
+<link href="index_files/htmltools-fill-0.5.9/fill.css" rel="stylesheet" />
+<script src="index_files/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<script src="index_files/plotly-binding-4.12.0/plotly.js"></script>
+<script src="index_files/typedarray-0.1/typedarray.min.js"></script>
+<link href="index_files/crosstalk-1.2.2/css/crosstalk.min.css" rel="stylesheet" />
+<script src="index_files/crosstalk-1.2.2/js/crosstalk.min.js"></script>
+<link href="index_files/plotly-htmlwidgets-css-2.25.2/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="index_files/plotly-main-2.25.2/plotly-latest.min.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="HAL.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+
+</div>
+
+
+<div id="housing-alliance-of-louisville-hal-dashboard"
+class="section level1">
+<h1>Housing Alliance of Louisville (HAL) Dashboard</h1>
+<div id="homelessness" class="section level2">
+<h2>Homelessness:</h2>
+<ul>
+<li>Goal: Secure stable housing for 250 individuals experiencing chronic
+homelessness by 2027.</li>
+</ul>
+</div>
+<div id="eviction" class="section level2">
+<h2>Eviction:</h2>
+<ul>
+<li>Goal: Eliminate evictions for parents with children age 0-5 in
+Louisville</li>
+<li>Plot of eviction filings, judgements, warrants:</li>
+</ul>
+<div class="plotly html-widget html-fill-item" id="htmlwidget-5df19b046245eba8bc3e" style="width:672px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-5df19b046245eba8bc3e">{"x":{"data":[{"x":[2021,2021.25,2021.5,2021.75,2022,2022.25,2022.5,2022.75,2023,2023.25,2023.5,2023.75,2024,2024.25,2024.5,2024.75,2025,2025.25,2025.5],"y":[2880,2576,3067,3407,3986,3734,4400,4085,4403,3949,4314,3816,3997,3939,4103,3970,3962,3739,3993],"text":["2021 Q1<br>filings: 2,880","2021 Q2<br>filings: 2,576","2021 Q3<br>filings: 3,067","2021 Q4<br>filings: 3,407","2022 Q1<br>filings: 3,986","2022 Q2<br>filings: 3,734","2022 Q3<br>filings: 4,400","2022 Q4<br>filings: 4,085","2023 Q1<br>filings: 4,403","2023 Q2<br>filings: 3,949","2023 Q3<br>filings: 4,314","2023 Q4<br>filings: 3,816","2024 Q1<br>filings: 3,997","2024 Q2<br>filings: 3,939","2024 Q3<br>filings: 4,103","2024 Q4<br>filings: 3,970","2025 Q1<br>filings: 3,962","2025 Q2<br>filings: 3,739","2025 Q3<br>filings: 3,993"],"type":"scatter","mode":"lines+markers","line":{"width":5.6692913385826778,"color":"rgba(244,53,79,1)","dash":"solid"},"hoveron":"points","name":"filings","legendgroup":"filings","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","marker":{"autocolorscale":false,"color":"rgba(244,53,79,1)","opacity":1,"size":3.7795275590551185,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(244,53,79,1)"}},"frame":null},{"x":[2021,2021.25,2021.5,2021.75,2022,2022.25,2022.5,2022.75,2023,2023.25,2023.5,2023.75,2024,2024.25,2024.5,2024.75,2025,2025.25,2025.5],"y":[753,606,758,815,892,1078,1245,1205,1291,1261,1237,945,1002,1193,1195,1183,1006,1032,1053],"text":["2021 Q1<br>judgements: 753","2021 Q2<br>judgements: 606","2021 Q3<br>judgements: 758","2021 Q4<br>judgements: 815","2022 Q1<br>judgements: 892","2022 Q2<br>judgements: 1,078","2022 Q3<br>judgements: 1,245","2022 Q4<br>judgements: 1,205","2023 Q1<br>judgements: 1,291","2023 Q2<br>judgements: 1,261","2023 Q3<br>judgements: 1,237","2023 Q4<br>judgements: 945","2024 Q1<br>judgements: 1,002","2024 Q2<br>judgements: 1,193","2024 Q3<br>judgements: 1,195","2024 Q4<br>judgements: 1,183","2025 Q1<br>judgements: 1,006","2025 Q2<br>judgements: 1,032","2025 Q3<br>judgements: 1,053"],"type":"scatter","mode":"lines+markers","line":{"width":5.6692913385826778,"color":"rgba(255,134,153,1)","dash":"solid"},"hoveron":"points","name":"judgements","legendgroup":"judgements","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","marker":{"autocolorscale":false,"color":"rgba(255,134,153,1)","opacity":1,"size":3.7795275590551185,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(255,134,153,1)"}},"frame":null},{"x":[2021,2021.25,2021.5,2021.75,2022,2022.25,2022.5,2022.75,2023,2023.25,2023.5,2023.75,2024,2024.25,2024.5,2024.75,2025,2025.25,2025.5],"y":[419,333,444,466,529,678,749,747,746,694,707,557,558,679,658,667,577,545,588],"text":["2021 Q1<br>warrants: 419","2021 Q2<br>warrants: 333","2021 Q3<br>warrants: 444","2021 Q4<br>warrants: 466","2022 Q1<br>warrants: 529","2022 Q2<br>warrants: 678","2022 Q3<br>warrants: 749","2022 Q4<br>warrants: 747","2023 Q1<br>warrants: 746","2023 Q2<br>warrants: 694","2023 Q3<br>warrants: 707","2023 Q4<br>warrants: 557","2024 Q1<br>warrants: 558","2024 Q2<br>warrants: 679","2024 Q3<br>warrants: 658","2024 Q4<br>warrants: 667","2025 Q1<br>warrants: 577","2025 Q2<br>warrants: 545","2025 Q3<br>warrants: 588"],"type":"scatter","mode":"lines+markers","line":{"width":5.6692913385826778,"color":"rgba(255,211,214,1)","dash":"solid"},"hoveron":"points","name":"warrants","legendgroup":"warrants","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","marker":{"autocolorscale":false,"color":"rgba(255,211,214,1)","opacity":1,"size":3.7795275590551185,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(255,211,214,1)"}},"frame":null}],"layout":{"margin":{"t":23.305936073059364,"r":7.3059360730593621,"b":22.648401826484022,"l":40.182648401826491},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[2020.7750000000001,2025.7249999999999],"tickmode":"array","ticktext":["2021","2022","2023","2024","2025"],"tickvals":[2021,2022,2023,2024,2025],"categoryorder":"array","categoryarray":["2021","2022","2023","2024","2025"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[129.5,4606.5],"tickmode":"array","ticktext":["1,000","2,000","3,000","4,000"],"tickvals":[1000,2000,3000,4000],"categoryorder":"array","categoryarray":["1,000","2,000","3,000","4,000"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":"rgba(255,255,255,1)","line":{"color":"rgba(51,51,51,1)","width":0.66417600664176002,"linetype":"solid"},"yref":"paper","xref":"paper","layer":"below","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.8897637795275593,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498},"title":{"text":"","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"28785f217a08":{"x":{},"y":{},"colour":{},"text":{},"type":"scatter"},"287829d36a3":{"x":{},"y":{},"colour":{},"text":{}}},"cur_data":"28785f217a08","visdat":{"28785f217a08":["function (y) ","x"],"287829d36a3":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="affordable-housing" class="section level2">
+<h2>Affordable Housing:</h2>
+<ul>
+<li>Goal: Create or preserve 15,000 affordable housing units by
+2027</li>
+<li>Current count: 7016 units (My Louisville Home)</li>
+<li>Data from OHCD coming this week (10/7)</li>
+<li>Landscape:
+<ul>
+<li>Map (NHPD, OHCD, LAHTF)</li>
+</ul></li>
+<li>How has affordability changed?
+<ul>
+<li>Percent cost burdened over time (ACS)</li>
+<li>Current renter burden (ACS) vs. new renter burden (Zillow)</li>
+<li>Other option</li>
+</ul></li>
+</ul>
+<pre class="r"><code>load(&quot;../../data/housing/zillow_hvi.Rdata&quot;)
+
+z_hvi &lt;- zillow_hvi %&gt;%
+  select(RegionName, everything()) %&gt;%
+  rename(zip = RegionName, value = 2)
+
+zhvi_growth &lt;- z_hvi %&gt;%
+  select(zip, X2000.01.31, X2026.08.31) %&gt;%
+  mutate(
+    growth_pct = (X2026.08.31 / X2000.01.31 - 1) * 100) %&gt;%
+  select(zip, growth_pct)
+
+map_zip &lt;- glptools::map_zip
+
+zhvi_growth_map &lt;- map_zip %&gt;%
+  mutate(zip = as.integer(zip)) %&gt;%
+  left_join(zhvi_growth, by = &quot;zip&quot;) %&gt;%
+  ggplot() +
+  geom_sf(
+    aes(fill = growth_pct),
+    color = &quot;white&quot;,
+    linewidth = 0.2
+  ) +
+  scale_fill_gradientn(
+    colors = c(
+      &quot;#FFD3D6&quot;,
+      &quot;#FF8699&quot;,
+      &quot;#F4354F&quot;
+    ),
+    labels = scales::label_percent(scale = 1),
+    name = &quot;Growth&quot;
+  ) +
+  labs(
+    title = &quot;Home Value Growth, 2000–2026&quot;,
+    subtitle = &quot;Zillow Home Value Index&quot;
+  ) +
+  theme_void() +
+  theme(
+    plot.title = element_text(face = &quot;bold&quot;),
+    legend.position = &quot;right&quot;
+  )
+
+zhvi_growth_map</code></pre>
+<p><img src="index_files/figure-html/zillow_map-1.png" alt="" width="672" /></p>
+<ul>
+<li>GROUPED BAR CHART?
+<ul>
+<li>Affordability by income groups (TBD)
+<ul>
+<li>Less than 20% income to housing</li>
+<li>20-29% income to housing</li>
+<li>30+% income to housing</li>
+</ul></li>
+</ul></li>
+</ul>
+<div id="louisville-mean-hourly-wage-2025-29.96-62316.80-per-year"
+class="section level3">
+<h3>Louisville Mean Hourly Wage (2025): $29.96 = $62,316.80 per
+year</h3>
+<p>(U.S. Bureau of Labor Statistics)</p>
+</div>
+<div id="louisville-minimum-wage-7.25-15080-per-year"
+class="section level3">
+<h3>Louisville Minimum Wage: $7.25 = $15,080 per year</h3>
+<pre class="r"><code>df &lt;- read_excel(&quot;../../data/housing/housing_cost_percentage.xlsx&quot;) %&gt;%
+  janitor::clean_names()
+
+income_levels &lt;- c(&quot;&lt;20k&quot;, &quot;20k to 34k&quot;,&quot;35k to 49k&quot;, &quot;50k to 74k&quot;, &quot;75k+&quot;)
+
+income_cb_renter &lt;- df %&gt;%
+  filter(tenure == &quot;Renter&quot;) %&gt;%
+  mutate(income = factor(income, levels = income_levels)) %&gt;%
+  pivot_longer(c(&quot;less_than_20_percent&quot;, &quot;between_20_29_percent&quot;, &quot;over_30_percent&quot;), names_to = &quot;% income spent on housing&quot;, values_to = &quot;percent&quot;) %&gt;%
+  mutate(`% income spent on housing` = recode(`% income spent on housing`,
+    less_than_20_percent = &quot;&lt;20%&quot;, 
+    between_20_29_percent = &quot;20% to 29%&quot;, 
+    over_30_percent = &quot;30%+&quot;
+  ), 
+  ) 
+
+income_cb_owner &lt;- df %&gt;%
+  filter(tenure == &quot;Owner&quot;) %&gt;%
+  mutate(income = factor(income, levels = income_levels)) %&gt;%
+  pivot_longer(c(&quot;less_than_20_percent&quot;, &quot;between_20_29_percent&quot;, &quot;over_30_percent&quot;), names_to = &quot;% income spent on housing&quot;, values_to = &quot;percent&quot;) %&gt;%
+  mutate(`% income spent on housing` = recode(`% income spent on housing`,
+    less_than_20_percent = &quot;&lt;20%&quot;, 
+    between_20_29_percent = &quot;20% to 29%&quot;, 
+    over_30_percent = &quot;30%+&quot;
+  ))
+
+library(showtext)
+library(sysfonts)
+
+font_add_google(&quot;Poppins&quot;, &quot;Poppins&quot;)
+showtext_auto()
+
+plot_income_cb_renter &lt;- ggplot(income_cb_renter, aes(x = income, y = percent, fill = `% income spent on housing`, group = `% income spent on housing`)) +
+  geom_col(position = position_dodge(width = 0.5), width = 0.5) +                    
+  labs(
+    title = &quot;Cost Burden by Income Group (Renter)&quot;,
+    x = &quot;Income Group&quot;,
+    y = &quot;Percent&quot;
+  ) +
+  scale_y_continuous(labels = scales::label_percent()) + 
+  scale_fill_manual(
+    values = c(
+       &quot;#FFD3D6&quot;, 
+       &quot;#FF8699&quot;,
+       &quot;#F4354F&quot;
+    )
+  ) +
+ theme_minimal(base_family = &quot;poppins&quot;, base_size = 22) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1, family = &quot;poppins&quot;),
+    plot.title = element_text(face = &quot;bold&quot;, size = 26, family = &quot;poppins&quot;),
+    legend.position = &quot;top&quot;
+  )
+
+plot_income_cb_renter</code></pre>
+<p><img src="index_files/figure-html/unnamed-chunk-1-1.png" alt="" width="672" /></p>
+<pre class="r"><code>plot_income_cb_owner &lt;- ggplot(income_cb_owner, aes(x = income, y = percent, fill = `% income spent on housing`, group = `% income spent on housing`)) +
+  geom_col(position = position_dodge(width = 0.5), width = 0.5) +                    
+  labs(
+    title = &quot;Cost Burden by Income Group (Owner)&quot;,
+    x = &quot;Income Group&quot;,
+    y = &quot;Percent&quot;
+  ) +
+  scale_y_continuous(labels = scales::label_percent()) + 
+  scale_fill_manual(
+    values = c(
+       &quot;#FFD3D6&quot;, 
+       &quot;#FF8699&quot;,
+       &quot;#F4354F&quot;
+    )
+  ) +
+ theme_minimal(base_family = &quot;poppins&quot;, base_size = 22) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1, family = &quot;poppins&quot;),
+    plot.title = element_text(face = &quot;bold&quot;, size = 26, family = &quot;poppins&quot;),
+    legend.position = &quot;top&quot;
+  )
+
+plot_income_cb_owner</code></pre>
+<p><img src="index_files/figure-html/unnamed-chunk-1-2.png" alt="" width="672" /></p>
+</div>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
